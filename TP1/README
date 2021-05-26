@@ -1,0 +1,5 @@
+Compilar: 
+$> jison compilador.jison 
+
+Correr: 
+$> nose compilador.js input > output.json
