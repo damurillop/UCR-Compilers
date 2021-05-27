@@ -9,7 +9,7 @@
 "funcion"												return 'FUNCION'
 "posicion"                      return 'POSICION'
 parametros?                     return 'PARAMETRO'
-"de"|"con "|"a"        					return 'ASIGNADOR'
+"de"|"con "|"a"|"en"        					return 'ASIGNADOR'
 "tamaño"              					return 'DIMENSION'
 [0-9]+                					return 'LITERAL'
 "sume"|"sumar"|"multiplique"		return 'OPERANDO'
@@ -51,6 +51,8 @@ I: COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL
       }
     | ELSE FINAL 
     	 {$$ = "else {";}
+    |  TIPO ID PALABRACLAVE LITERAL
+       {$$ = $2 + " = " + $4 + ";"}
     |  TIPO ID C ASIGNADOR LITERAL
        {$$ = $2 + $3 + $5}
     | CONDICIONAL TIPO ID C ASIGNADOR LITERAL TRANSICION 
@@ -69,11 +71,17 @@ I: COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL
     | RETURN TIPO ID 
         {$$ = "return "+$3+";";}
     | RETURN POSICION LITERAL ASIGNADOR TIPO ID
-        {if(($5 == "arreglo" || $5 == "array")&& $4 == "de"){
+        {if($4 == "de"){
           $$ = "return "+$6+"["+$3+"];";
         }else{
           $$ = "";
-        }}
+        };}
+    | TIPO ID PALABRACLAVE TIPO ID ASIGNADOR POSICION LITERAL
+       {if($1 == "variable" && $6 == "en"){
+         $$ = "var " + $2 + " = " + $5 + "[" + $8 + "];";
+       }else{
+         $$ = "";
+       };} 
     | TERMINE CORCHETE  
     		{$$ = "}";}
     | COMENTARIO Q
