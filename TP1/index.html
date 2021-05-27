@@ -20,8 +20,12 @@
                 <input type="text" class="form-control" id="inputText" aria-describedby="inputHelp">
                 <div id="inputHelp" class="form-text">Código debe apegarse a los estandares.</div>
             </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" onclick="speech()" type="checkbox" id="inputSpeech" />
+                <label class="form-check-label" for="inputSpeech">Hablar</label>
+            </div>
             <button type="button" onclick="compile()" class="btn btn-primary">Compilar</button>
-            <button type="button" onclick="speech()" class="btn btn-primary">Hablar</button>
+            
         </form>
         <p class="mt-3" id="output"></p>
         <p class="mt-3" id="hablar"></p>
@@ -39,31 +43,35 @@
             document.getElementById("output").innerText =
                 compilador.parse(document.getElementById("inputText").value);
         }
+
+
         function speech(){
             window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
             const recognition = new SpeechRecognition();
             recognition.interimResults = true;
             let speechToText = "";
             recognition.addEventListener("result", e => {
-            let interimTranscript = '';
-            for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
-                let transcript = e.results[i][0].transcript;
-                console.log(transcript)
-                if (e.results[i].isFinal) {
-                speechToText += transcript;
-                } else {
-                interimTranscript += transcript;
+                let interimTranscript = '';
+                for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
+                    let transcript = e.results[i][0].transcript;
+                    console.log(transcript)
+                    if (e.results[i].isFinal) {
+                    speechToText += transcript;
+                    } else {
+                    interimTranscript += transcript;
+                    }
                 }
-            }
-            document.getElementById("output").innerText =
-                compilador.parse(speechToText + interimTranscript);
-            //document.getElementById("hablar").innerText = speechToText + interimTranscript;
+                document.getElementById("inputText").value = speechToText.toLowerCase() + interimTranscript.toLowerCase();
             });
- 
-            recognition.addEventListener('end', recognition.start);
+            recognition.onaudioend = function() { 
+                document.getElementById("inputSpeech").checked = false;
+                document.getElementById("output").innerText = 
+                    compilador.parse(document.getElementById("inputText").value + ';');
+                };
             recognition.lang = 'es';
             recognition.start();
         }
-    </script>
+
+        </script>
 
 </html>l
