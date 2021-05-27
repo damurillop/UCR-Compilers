@@ -63,7 +63,7 @@
                 }
                 document.getElementById("inputText").value = speechToText.toLowerCase() + interimTranscript.toLowerCase();
             });
-            recognition.onaudioend = function() { 
+            recognition.onend = function() { 
                 document.getElementById("inputSpeech").checked = false;
                 document.getElementById("output").innerText = 
                     compilador.parse(document.getElementById("inputText").value + ';');
