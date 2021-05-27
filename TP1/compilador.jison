@@ -3,9 +3,11 @@
 %%
 
 \s+                             /* skip whitespace */
-"declare"|"retorna"	      			return 'COMANDO'
-"array"|"variable" 					   	return 'TIPO'
+"declare"      			            return 'COMANDO'
+"retorne"	                      return 'RETURN'
+"array"|"variable"|"arreglo"		return 'TIPO'
 "funcion"												return 'FUNCION'
+"posicion"                      return 'POSICION'
 parametros?                     return 'PARAMETRO'
 "de"|"con "|"a"        					return 'ASIGNADOR'
 "tamaño"              					return 'DIMENSION'
@@ -64,14 +66,20 @@ I: COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL
     	  {$$ = "function "+$3+"(){"}
     | COMANDO FUNCION ID ASIGNADOR PARAMETRO P
     		{$$ = "function "+$3+"("+$6+"){"}
-    | COMANDO TIPO ID 
+    | RETURN TIPO ID 
         {$$ = "return "+$3+";";}
+    | RETURN POSICION LITERAL ASIGNADOR TIPO ID
+        {if(($5 == "arreglo" || $5 == "array")&& $4 == "de"){
+          $$ = "return "+$6+"["+$3+"];";
+        }else{
+          $$ = "";
+        }}
     | TERMINE CORCHETE  
     		{$$ = "}";}
     | COMENTARIO Q
     		{$$ = "//"+$2;}
     | NUEVALINEA
-				{$$ = "\\n"}
+				{$$ = "\n"}
    ​;
 P:  ID COMA P {$$ = $1 + ", " + $3;} | ID {$$ = $1;};
 C: COMPARADOR
