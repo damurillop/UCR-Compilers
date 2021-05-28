@@ -14,7 +14,7 @@ parametros?                     return 'PARAMETRO'
 "tamaño"              					return 'DIMENSION'
 [0-9]+                					return 'LITERAL'
 "sume"|"sumar"|"multiplique"|"reste"|"divida"		return 'OPERANDO'
-"es igual"|"es menor"|"es menor o igual"|"es mayor o igual"|"es mayor"                   return 'COMPARADOR'
+"es igual"|"es menor"|"es menor o igual"|"es mayor o igual"|"es mayor"|"es diferente"                  return 'COMPARADOR'
 "es"                 		        return 'PALABRACLAVE'
 "sino"	                        return 'ELSE'
 "si"|"mientras"                 return 'CONDICIONAL'
@@ -110,6 +110,8 @@ C: COMPARADOR
 	{
   	if ($1 == "es igual"){
     	{$$ = " == "}
+    }else if(){
+      {$$ = " != "}
     }else if($1 == "es menor"){
     	{$$ = " < "}
     }else if($1 == "es menor o igual"){
