@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compilador</title>
     <!--- bootstrap --->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -31,6 +31,9 @@
             <textarea type="text" class="mt-3 form-control" id="output" readonly></textarea>
         </div>
         <div clas="col-4"></div>
+
+
+        <div id = "cont"></div>
     </div>
 </body>
     <script src="js/bootstrap.min.js"></script>
@@ -40,6 +43,7 @@
         function compile(){
             document.getElementById("output").innerText =
                 parse(document.getElementById("inputText").value);
+            tabla(document.getElementById("inputText").value);
         }
 
 
@@ -65,6 +69,7 @@
                 document.getElementById("inputSpeech").checked = false;
                 document.getElementById("output").innerText = 
                     parse(document.getElementById("inputText").value + ";");
+                tabla(document.getElementById("inputText").value + ";");
                 };
             recognition.lang = 'es';
             recognition.start();
@@ -81,6 +86,140 @@
             }
         }
 
+        function tabla(inputText){
+            borrarTabla("tabla");
+            var s = inputText.split(" ");
+            let variables = [];
+            var rx1 = new RegExp('[0-9]+');
+            var rx2 = new RegExp('[a-zA-Z_][0-9a-zA-Z_]*');
+            var arrHead = new Array();
+            arrHead = ['Variables','Valor'];
+
+            for(var i of s){
+                switch(i){
+                    case "declare":
+                        variables.push("COMANDO");
+                        break;
+                    case "retorne":
+                        variables.push("RETURN");
+                        break;
+                    case "array": case "variable": case "arreglo":
+                        variables.push("TIPO");
+                        break;
+                    case "funcion":
+                        variables.push("FUNCION");
+                        break;
+                    case "posicion":
+                        variables.push("POSICION");
+                        break;
+                    case "parametros":case "parametro":
+                        variables.push("PARAMETRO");
+                        break;
+                    case "entre":
+                        variables.push("ENTRE");
+                        break;
+                    case "de":case "con":case "a": case "en":
+                        variables.push("ASIGNADOR");
+                        break;
+                    case "tamaño":
+                        variables.push("DIMENSION");
+                        break;
+                    case "sume":case "sumar": case "multiplique": case "reste":case "divida":
+                        variables.push("OPERANDO");
+                        break;
+                    case "es igual":case "es menor": case "es menor o igual": case "es mayor o igual": case "es mayor": case "es diferente":
+                        variables.push("COMPARADOR");
+                        break;
+                    case "es":
+                        variables.push("PALABRACLAVE");
+                        break;
+                    case "sino": 
+                        variables.push("ELSE");
+                        break;
+                    case "si":case "mientras":
+                        variables.push("CONDICIONAL");
+                        break;
+                    case "entonces": 
+                        variables.push("TRANSICION");
+                        break;
+                    case "corchete":
+                        variables.push("CORCHETE");
+                        break;
+                    case "comente":
+                        variables.push("COMENTARIO");
+                        break;
+                    case "inicie": 
+                        variables.push("INICIE");
+                        break;
+                    case "termine":
+                        variables.push("TERMINE");
+                        break;
+                    case "linea":
+                        variables.push("NUEVALINEA");
+                        break; 
+                    case ";":
+                        variables.push("FINAL");
+                        break;
+                    case ".":
+                        variables.push("PUNTO");
+                        break;
+                    default:
+                        switch(true){
+                            case "nueva":
+                                break;
+                            case rx1.test(i):
+                                variables.push("LITERAL");
+                                break;
+                            case rx2.test(i):
+                                variables.push("ID");
+                                break;
+                        }
+                }
+
+            }
+            if(variables.length > 0){
+                var tab = document.createElement('table');
+                tab.setAttribute('id','tabla');
+                var tr = tab.insertRow(-1);
+                for (var h = 0; h < arrHead.length; h++) {
+                    var th = document.createElement('th'); // the header object.
+                    th.innerHTML = arrHead[h];
+                    tr.appendChild(th);
+                }
+                var div = document.getElementById('cont');
+                div.appendChild(tab);
+                var tabVac = document.getElementById('tabla');
+                for(var i = 0; i < variables.length; i++){
+                    var numFilas = tabVac.rows.length;
+                    var tr = tabVac.insertRow(numFilas); 
+                    tr = tabVac.insertRow(numFilas);
+                    for (var c = 0; c < arrHead.length; c++) {
+                        var td = document.createElement('td');
+                        td = tr.insertCell(c);
+                        if (c == 0) {   
+                            var texto = document.createElement("TEXTAREA");
+                            texto.setAttribute('type','text');
+                            texto.setAttribute('class','mt-3 form-control');
+                            texto.setAttribute('readonly',true);
+                            texto.innerText = variables[i];
+                            td.appendChild(texto);
+                        }else{
+                            var texto = document.createElement("TEXTAREA");
+                            texto.setAttribute('type','text');
+                            texto.setAttribute('class','mt-3 form-control');
+                            texto.setAttribute('readonly',true);
+                            texto.innerText = s[i];
+                            td.appendChild(texto);
+                        }
+                    } 
+                }
+            }
+
+            function borrarTabla(id){
+                var tbl = document.getElementById(id);
+                if(tbl) tbl.parentNode.removeChild(tbl);
+            }
+        }
         </script>
 
-</html>l
+</html>

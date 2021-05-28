@@ -42,7 +42,7 @@ S:L
 L:I FINAL L{$$ = $1 + ' ' + $3;} | I FINAL;
 I: 
     COMANDO TIPO ID
-        {$$ = "var" + $3 + ";";}
+        {$$ = "var " + $3 + ";";}
     |COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL 
 				{$$ = "var "+$3+"["+$6+"];";}
     | OPERANDO LITERAL ASIGNADOR TIPO ID 
