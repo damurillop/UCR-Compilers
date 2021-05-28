@@ -17,7 +17,7 @@
             <form>
                 <div class="mb-3">
                     <label for="inputText" class="form-label">Código</label>
-                <input type="text" class="form-control" id="inputText" aria-describedby="inputHelp">
+                <textarea type="text" class="form-control" id="inputText" aria-describedby="inputHelp"></textarea>
                 <div id="inputHelp" class="form-text">Código debe apegarse a los estandares.</div>
             </div>
             <div class="form-check form-switch mb-3">
@@ -41,7 +41,7 @@
         
         function compile(){
             document.getElementById("output").innerText =
-                compilador.parse(document.getElementById("inputText").value);
+                parse("inputText");
         }
 
 
@@ -63,13 +63,23 @@
                 }
                 document.getElementById("inputText").value = speechToText.toLowerCase() + interimTranscript.toLowerCase();
             });
-            recognition.onend = function() { 
+            recognition.onaudioend = function() { 
                 document.getElementById("inputSpeech").checked = false;
                 document.getElementById("output").innerText = 
-                    compilador.parse(document.getElementById("inputText").value + ';');
+                    parse("inputText"+";");
                 };
             recognition.lang = 'es';
             recognition.start();
+        }
+
+        function parse(inputID){
+            try{
+                return compilador.parse(document.getElementById(inputID).value + ';');
+            }catch(error){
+                
+                return error.message;
+                //algo
+            }
         }
 
         </script>
