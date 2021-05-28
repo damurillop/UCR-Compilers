@@ -9,10 +9,11 @@
 "funcion"												return 'FUNCION'
 "posicion"                      return 'POSICION'
 parametros?                     return 'PARAMETRO'
+"entre"                         return 'ENTRE'
 "de"|"con "|"a"|"en"        					return 'ASIGNADOR'
 "tamaño"              					return 'DIMENSION'
 [0-9]+                					return 'LITERAL'
-"sume"|"sumar"|"multiplique"		return 'OPERANDO'
+"sume"|"sumar"|"multiplique"|"reste"|"divida"		return 'OPERANDO'
 "es igual"|"es menor"|"es menor o igual"|"es mayor o igual"|"es mayor"                   return 'COMPARADOR'
 "es"                 		        return 'PALABRACLAVE'
 "sino"	                        return 'ELSE'
@@ -48,11 +49,23 @@ I:
       {
         if($1== 'multiplique'){
         		{$$ = $5 +" *= "+$2+";";}
-				}else{
+				}else if($1 == 'sume'){
             {$$ = $5 +" += "+$2+";";}
+        }else if($1 == 'reste'){
+            {$$ = $5 +" -= "+$2+";";}
+        }else{
+          {$$ = "";}
         }
       }
-    | ELSE FINAL 
+    | OPERANDO ENTRE LITERAL ASIGNADOR TIPO ID
+      {
+        if($1 == 'divida'){
+          {$$ = $6 +" /= "+$3+";";}
+        }else {
+          {$$ = "";}
+        }
+      }
+    | ELSE
     	 {$$ = "else {";}
     |  TIPO ID PALABRACLAVE LITERAL
        {$$ = $2 + " = " + $4 + ";"}
