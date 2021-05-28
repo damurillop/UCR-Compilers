@@ -110,7 +110,7 @@ C: COMPARADOR
 	{
   	if ($1 == "es igual"){
     	{$$ = " == "}
-    }else if(){
+    }else if($1 == "es diferente"){
       {$$ = " != "}
     }else if($1 == "es menor"){
     	{$$ = " < "}
