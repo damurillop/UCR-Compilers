@@ -39,7 +39,10 @@ S:L
   { typeof console !== 'undefined' ? console.log($1) : print($1); return $1; } ;
 
 L:I FINAL L{$$ = $1 + ' ' + $3;} | I FINAL;
-I: COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL 
+I: 
+    COMANDO TIPO ID
+        {$$ = "var" + $3 + ";";}
+    |COMANDO TIPO ID ASIGNADOR DIMENSION LITERAL 
 				{$$ = "var "+$3+"["+$6+"];";}
     | OPERANDO LITERAL ASIGNADOR TIPO ID 
       {
