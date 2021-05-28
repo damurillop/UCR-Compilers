@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
-<body style="margin-top: 200px;">
+<body style="margin-top: 100px;">
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
@@ -29,11 +29,11 @@
             
             </form>
             <textarea type="text" class="mt-3 form-control" id="output" readonly></textarea>
+            <div id = "cont"></div>
         </div>
         <div clas="col-4"></div>
 
 
-        <div id = "cont"></div>
     </div>
 </body>
     <script src="js/bootstrap.min.js"></script>
@@ -43,7 +43,6 @@
         function compile(){
             document.getElementById("output").innerText =
                 parse(document.getElementById("inputText").value);
-            tabla(document.getElementById("inputText").value);
         }
 
 
@@ -69,7 +68,6 @@
                 document.getElementById("inputSpeech").checked = false;
                 document.getElementById("output").innerText = 
                     parse(document.getElementById("inputText").value);
-                    tabla(document.getElementById("inputText").value);
                 };
             recognition.lang = 'es';
             recognition.start();
@@ -78,10 +76,13 @@
         function parse(inputText){
             document.getElementById("inputError").hidden = true;
             try{
-                return compilador.parse(inputText);
+                output = compilador.parse(inputText);
+                tabla(document.getElementById("inputText").value);
+                return output;
             }catch(error){
                 document.getElementById("inputError").innerText = error.message;
                 document.getElementById("inputError").hidden = false;
+                borrarTabla("tabla");
                 return "";
             }
         }
@@ -180,6 +181,7 @@
             if(variables.length > 0){
                 var tab = document.createElement('table');
                 tab.setAttribute('id','tabla');
+                tab.setAttribute('class', 'w-100 table');
                 var tr = tab.insertRow(-1);
                 for (var h = 0; h < arrHead.length; h++) {
                     var th = document.createElement('th'); // the header object.
@@ -197,14 +199,14 @@
                         var td = document.createElement('td');
                         td = tr.insertCell(c);
                         if (c == 0) {   
-                            var texto = document.createElement("TEXTAREA");
+                            var texto = document.createElement("p");
                             texto.setAttribute('type','text');
                             texto.setAttribute('class','mt-3 form-control');
                             texto.setAttribute('readonly',true);
                             texto.innerText = variables[i];
                             td.appendChild(texto);
                         }else{
-                            var texto = document.createElement("TEXTAREA");
+                            var texto = document.createElement("p");
                             texto.setAttribute('type','text');
                             texto.setAttribute('class','mt-3 form-control');
                             texto.setAttribute('readonly',true);
@@ -215,10 +217,10 @@
                 }
             }
 
-            function borrarTabla(id){
-                var tbl = document.getElementById(id);
-                if(tbl) tbl.parentNode.removeChild(tbl);
-            }
+        }
+        function borrarTabla(id){
+            var tbl = document.getElementById(id);
+            if(tbl) tbl.parentNode.removeChild(tbl);
         }
         </script>
 
