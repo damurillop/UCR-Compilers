@@ -1,0 +1,13 @@
+Haga un compilador que traduzca algunas frases en lenguaje de alto nivel a lenguaje de bajo nivel (intermedio).  Haga otro compilador que traduzca frases de lenguaje intermedio a lenguaje de bajo nivel (lenguaje de máquina).
+
+Según el funcionamiento interno de un CPU capaz de ejecutar instrucciones de 16 bits.  Una secuencia de instrucciones de 16 bits están en lenguaje de máquina.  Las frases de alto nivel no están en lenguaje de máquina ni en lenguaje intermedio.  El lenguaje de alto nivel está compuesto por frases gramaticales que definen los parámetros necesarios para ejecutar una secuencia de instrucciones de lenguaje de máquina (representables en lenguaje intermedio) que permitan resolver un problema (promedio, máximo, multiplicación, etc.).  
+
+El interfaz permitirá modificar el lenguaje de alto nivel, ver el lenguaje intermedio y el de bajo nivel.
+
+Sus compiladores deben definir una gramática con algunas frases posibles que se puedan compilar a lenguaje intermedio.  
+El compilador de alto nivel debe permitir reconocer programas de una o más instrucciones, una instrucción por línea.  
+El compilador de lenguaje intermedio a lenguaje de bajo nivel es UNO A UNO; esto quiere decir que las instrucciones de lenguaje intermedio representan una y solo una instrucción de bajo nivel por lo que los requerimientos de análisis sintáctico/léxico son distintos.  
+
+Debe utilizar yacc para alguno o ambos compiladores.  Eso sí, su elección de herramientas jflex/flex/yacc debe ser justa y razonable.  No conviene usar una herramienta muy complicada para una tarea muy sencilla ni una herramienta muy limitada para algo complejo.
+
+El lenguaje de alto nivel lo definirá según la gramática que defina.  No debe ser muy grande, ni compleja.  Debe permitir, tan solo, algunas frases (3 o 4) traducibles.  Las frases traducibles son las que pueden representarse en lenguaje intermedio.  
