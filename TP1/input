@@ -1,6 +1,0 @@
-declare funcion suma con parametro hola ;
-variable suma es 3 ;
-declare variable i con tamaño 7;
-mientras variable hola es menor a 0 entonces;
-variable x es variable i en posicion 4;
-retorne posicion 3 de variable i;

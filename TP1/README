@@ -2,4 +2,14 @@ Compilar:
 $> jison compilador.jison 
 
 Correr: 
-$> nose compilador.js input > output.json
+$> node compilador.js input > output.json
+
+Correr web:
+Abrir archivo index.html en un browser. 
+
+Programa: ingrese en el area de código el lenguaje que desea compilar. 
+En el documento Expresiones.pdf viene una pequeña guía de las expresiones que se podrían utilizar.
+En el area debajo de "Compilar" aparecerá el lenguaje compilado a lenguaje JavaScript. 
+
+Ingresar por medio de voz: 
+Precionar el botón de "Hablar" y comenzar a citar la instrucción a compilar. 
