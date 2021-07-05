@@ -7,7 +7,7 @@
 			"command": "C:\\MinGW\\bin\\gcc.exe",
 			"args": [
 				"${file}",
-				"y.tab.c",
+				"yacc.tab.c",
 				"-o",
 				"parser.exe"
 			],

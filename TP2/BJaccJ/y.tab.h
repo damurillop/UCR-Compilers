@@ -33,12 +33,45 @@
    version 2.2 of Bison.  */
 
 
-
+/* Tokens.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+     COMA = 258,
+     CORCHETEA = 259,
+     CORCHETEC = 260,
+     CL = 261,
+     INM = 262,
+     REG = 263,
+     RRR = 264,
+     RR = 265,
+     RI = 266,
+     RPM = 267,
+     PM = 268,
+     IPM = 269,
+     NOP = 270
+   };
+#endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1676 of yacc.c  */
+#line 15 ".\\y.y"
+
+    char* string;
+    int number;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 74 "y.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
